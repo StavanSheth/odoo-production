@@ -1,0 +1,26 @@
+# Secrets and environment
+.env
+*.key
+*.pem
+id_rsa*
+*.token
+
+# Database dumps and backups
+backups/*.tar.gz
+backups/*.sql
+backups/*.zip
+
+# Runtime filestores & data mounts (if created locally)
+odoo_data/
+postgres_data/
+
+# Temporary and log files
+*.log
+*.tmp
+*.bak
+
+# Python byte-code (for custom addons in extra-addons)
+__pycache__/
+*.py[cod]
+*$py.class
+

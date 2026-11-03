@@ -1,0 +1,22 @@
+# =============================================================================
+# Production Docker Compose Override (Oracle Cloud / Production VPS)
+# =============================================================================
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+services:
+  nginx:
+    # In production with Cloudflare Tunnel, port 80 does not need public exposure
+    # but can be bound to localhost for local administrative debugging
+    ports:
+      - "127.0.0.1:80:80"
+
+  cloudflared:
+    profiles: [] # Active by default in production override
+    restart: always
+
+volumes:
+  postgres_data:
+    name: odoo_prod_postgres_data
+  odoo_data:
+    name: odoo_prod_web_data
+
