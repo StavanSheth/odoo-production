@@ -61,9 +61,21 @@ until [ "$(docker inspect --format='{{json .State.Health.Status}}' odoo_db 2>/de
 done
 echo "[+] PostgreSQL database is ready and healthy."
 
-# 7. Start Odoo Application & Nginx Reverse Proxy
+# 7. Initialize Odoo Base Schema (if not already initialized)
+echo "[*] Initializing base ERP database schema..."
+docker compose run --rm -T web odoo -i base -d odoo --without-demo=all --stop-after-init || true
+echo "[+] Database schema verified."
+
+# 8. Start Odoo Application & Nginx Reverse Proxy
 echo "[*] Launching Odoo 18 and Nginx reverse proxy..."
 docker compose up -d web nginx
+
+# Configure firewall if firewalld is active (Oracle Linux / RHEL)
+if command -v firewall-cmd &> /dev/null && systemctl is-active --quiet firewalld; then
+  echo "[*] Configuring firewalld rules for HTTP access..."
+  firewall-cmd --add-port=80/tcp --add-port=8080/tcp --permanent 2>/dev/null || true
+  firewall-cmd --reload 2>/dev/null || true
+fi
 
 # 8. Start Cloudflare Tunnel if token is provided
 if grep -q '^CLOUDFLARE_TUNNEL_TOKEN=.\+' .env; then

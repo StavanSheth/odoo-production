@@ -1,5 +1,8 @@
 # Oracle Cloud Infrastructure (OCI) Deployment Guide
 
+> [!NOTE]
+> Instance configuration parameters are recorded in [oci-instance-details.md](file:///c:/Projects/Odoo/docs/oci-instance-details.md).
+
 ## 1. Free-Tier Eligibility & Sizing
 * **Target VM Shape**: `VM.Standard.A1.Flex` (Ampere ARM64)
 * **CPUs**: 2 OCPUs (vCPUs)
