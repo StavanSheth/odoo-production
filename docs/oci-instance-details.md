@@ -52,3 +52,4 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDNjosgOomMnJuOu7D1YREnvhMGZrIQY5J62i9sTFRN
 | **Boot Volume Size** | Default (~46.6 GB, within Always Free 200 GB limit) |
 | **In-Transit Encryption** | Enabled |
 | **Block Volumes** | None attached (using default boot volume) |
+

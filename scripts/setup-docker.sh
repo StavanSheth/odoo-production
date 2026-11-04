@@ -21,8 +21,20 @@ if command -v docker &> /dev/null && docker compose version &> /dev/null; then
   exit 0
 fi
 
-echo "[*] Installing official Docker engine via get.docker.com..."
-curl -fsSL https://get.docker.com | sh
+echo "[*] Detecting Linux distribution..."
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+fi
+
+if [ "$ID" = "ol" ] || [ "$ID" = "rhel" ] || [ "$ID" = "rocky" ] || [ "$ID" = "almalinux" ] || [ "$ID" = "centos" ]; then
+  echo "[*] Detected Enterprise Linux / Oracle Linux ($ID). Configuring official CentOS/RHEL Docker repository..."
+  dnf install -y dnf-utils
+  dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+else
+  echo "[*] Installing official Docker engine via get.docker.com..."
+  curl -fsSL https://get.docker.com | sh
+fi
 
 systemctl enable docker
 systemctl start docker

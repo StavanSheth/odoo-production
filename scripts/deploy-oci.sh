@@ -42,9 +42,21 @@ if [ ! -f .env ]; then
       -e "s/replace_with_secure_random_master_password_32chars/$MASTER_PASS/" \
       .env.example > .env
   chmod 600 .env
-  echo "[+] Generated new production .env (permissions set to 600)."
+
+  # Synchronize credentials to config/odoo.conf
+  sed -i "s/^db_password = .*/db_password = $DB_PASS/" config/odoo.conf
+  sed -i "s/^admin_passwd = .*/admin_passwd = $MASTER_PASS/" config/odoo.conf
+  echo "[+] Generated new production .env and synced config/odoo.conf."
 else
   echo "[+] Existing production .env detected. Preserving secrets."
+  DB_PASS=$(grep '^POSTGRES_PASSWORD=' .env | cut -d '=' -f2)
+  MASTER_PASS=$(grep '^ODOO_MASTER_PASSWORD=' .env | cut -d '=' -f2)
+  if [ -n "$DB_PASS" ]; then
+    sed -i "s/^db_password = .*/db_password = $DB_PASS/" config/odoo.conf
+  fi
+  if [ -n "$MASTER_PASS" ]; then
+    sed -i "s/^admin_passwd = .*/admin_passwd = $MASTER_PASS/" config/odoo.conf
+  fi
 fi
 
 # 5. Pull ARM64 Docker Images

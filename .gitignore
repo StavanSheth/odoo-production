@@ -1,6 +1,8 @@
 # Secrets and environment
 .env
 *.key
+*.key.pub
+*.pub
 *.pem
 id_rsa*
 *.token

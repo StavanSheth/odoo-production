@@ -53,6 +53,7 @@ services:
     depends_on:
       - web
     ports:
+      - "80:80"
       - "${LOCAL_HTTP_PORT:-8080}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
