@@ -33,3 +33,4 @@ jobs:
             echo "=== Running Health Check Suite ==="
             sudo bash scripts/health-check.sh http://127.0.0.1:8080
             echo "=== Deployment Successfully Completed ==="
+
